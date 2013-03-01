@@ -26,14 +26,13 @@ class Stock_model extends MY_Model{
             $sql = 'INSERT INTO products ( models_id,imei_number ) values ';
             foreach($products as $imei_no)
             {
-                if(rtrim($imei_no) != '')
+                if((rtrim($imei_no) != '') && (strlen(trim($imei_no)) == 15))
                 {
                     $sql .= '('.$_POST['models_id'].',"'.trim($imei_no).'"),';
                 }
             }
-            //echo $sql;die;
             $this->db->query(rtrim($sql,','));
-			return array('error_code'=>200,'error_msg'=>'success');
+            return array('error_code'=>200,'error_msg'=>'success');
         }
         else
         {
