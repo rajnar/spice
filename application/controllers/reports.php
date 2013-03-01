@@ -23,13 +23,20 @@ class Reports extends Main_Controller {
 	{
 		$return_data = $this->reports_model->getCustomresInvData(false);
 		//print_r($_POST); die;
-		$data['headers'] = array('Invoice Number','Name','Address','Contact Numbers','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added');
+		$data['headers'] = array('Invoice Number','Name','Address','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added');
 		$data['values'] = $return_data;
 		
 		//echo '<pre>'; print_r($data); die;
-		$this->excel_generation_lib->excel_generation($data);
+		 $filename = $this->excel_generation_lib->excel_generation($data);
+		//die;
+		$this->download($filename);
 		
 	}
+	public function download($filename) {
+        //$filename = $filename;
+        $data = file_get_contents("downloads/".$filename); // Read the file's contents
+        force_download($filename, $data);
+    }	
 
     public function invoiceReport()
     {

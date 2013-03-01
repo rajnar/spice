@@ -78,12 +78,11 @@
                     url:'<?php echo site_url();?>reports/getCustomresInvData?customer_id='+cust_id,
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Invoice Number','Name','Address','Contact Numbers','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added'],
+                    colNames:['Invoice Number','Name','Address','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added'],
                     colModel:[
                         {name:'invoice_number',index:'invoice_number',width:'10%'},
                         {name:'name',index:'name',width:'17%'},
 						{name:'address',index:'address',width:'15%'},
-						{name:'contact_number',index:'contact_number',width:'10%'},
                         {name:'total_sale_amount',index:'total_sale_amount',width:'9%',align:"right"},
                         {name:'discount',index:'discount',width:'4%',align:"right"},
                         {name:'amount_after_discount',index:'amount_after_discount',width:'9%',align:"right"},

@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'session','categories_lib','customers
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'file','form','conversion','ipaddress','json','selectbox','attachment','date');
+$autoload['helper'] = array('url', 'file','form','conversion','ipaddress','json','selectbox','attachment','date','download');
 
 
 /*

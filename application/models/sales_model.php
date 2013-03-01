@@ -90,11 +90,23 @@ class Sales_model extends MY_Model {
         $details_qry = $this->db->query($details_sql);
         $data['details_rs'] = $details_qry->first_row();
         $data['products'] = $this->getInvoiceProducts($invoice_id);
+		 $data['products_details'] = $this->getInvoiceProductsDetails($invoice_id);
         return $data;
     }
 
     public function getInvoiceProducts($invoice_id){
-        $sql = 'SELECT m.model_number, m.name, m.price, p.imei_number
+        $sql = 'SELECT m.model_number, m.name, m.price as price, sum(m.price) as total_price, p.imei_number,count(*) as qty
+                FROM sales_products sp
+                INNER JOIN products p ON p.imei_number = sp.products_id
+                INNER JOIN models m ON p.models_id = m.id
+                WHERE sp.sales_id = '.$invoice_id.'
+                GROUP BY m.model_number';
+        $qry = $this->db->query($sql);
+        $rs = $qry->result();
+        return $rs;
+    }
+	public function getInvoiceProductsDetails($invoice_id){
+        $sql = 'SELECT m.model_number, m.name, m.price, p.imei_number,count(*) as qty
                 FROM sales_products sp
                 INNER JOIN products p ON p.imei_number = sp.products_id
                 INNER JOIN models m ON p.models_id = m.id
@@ -102,7 +114,17 @@ class Sales_model extends MY_Model {
                 GROUP BY sp.products_id';
         $qry = $this->db->query($sql);
         $rs = $qry->result();
-        return $rs;
+        $result = array();
+		if(!empty($rs))
+		{
+			foreach($rs as $key=>$values)
+			{
+				$product_desc = $values->name.'-'.$values->model_number;
+				$result[$product_desc][] = $values->imei_number;
+			}
+		}
+		return $result;
+		//echo '<pre>'; print_r($result);die;
     }
 
     public function saveAmount($data)
