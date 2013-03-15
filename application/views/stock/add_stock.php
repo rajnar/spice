@@ -23,6 +23,9 @@
             .custom_border{
                 border:1px solid #aaaaaa;
             }
+			.error {
+				color: red;
+			}
         </style>
         <link href="<?php echo base_url();?>public/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -37,6 +40,8 @@
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
         <script src="<?php echo base_url();?>public/assets/js/jquery.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>public/assets/js/validate.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>public/assets/js/bootbox.js" rel="stylesheet"/></script>
         <script src="<?php echo base_url();?>public/assets/js/blockui.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/js/i18n/grid.locale-en.js" type="text/javascript" language="javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/src/grid.base.js" type="text/javascript" language="javascript"></script>
@@ -49,29 +54,91 @@
                     jsonpCallback: null
                 });
                 $('.jsave_stock').click(function(){
-                    $.ajax({
-                        type: "POST",
-                        url: '<?php echo site_url();?>stock/saveStock',
-                        data: $('#stock_form').serialize(),
-                        dataType:'json',
-                        beforeSend : function(){
-                        },
-                        success: function(data){
-                            //console.log(data);
-                            if(data.error_code != '200')
-                            {
-                                $('#error_msg').show();
-                                $('#msg_body').html(data.error_msg);
-                                $.blockUI({ message: ''});
-                                //alert(data.error_msg);
-                            }
-                            //console.log(data);
-                        },
-                        complete: function(){
-                            //window.location.href='<?php echo site_url()?>stock';
-                        }
-                    });
+					if( ($('#models_id').val() == '') && ($('#imei_number').val() == '') )
+                    {
+						bootbox.alert("Please Select Models Id<br>Please Select Products");
+                    }
+					else if($('#models_id').val() == '')
+                    {
+						bootbox.alert("Please Select Models Id");
+                    }
+					else if($('#imei_number').val() == '') 
+                    {
+						bootbox.alert("Please Select Products");
+                    }
+                    else
+					{
+						$.ajax({
+							type: "POST",
+							url: '<?php echo site_url();?>stock/saveStock',
+							data: $('#stock_form').serialize(),
+							dataType:'json',
+							beforeSend : function(){
+							},
+							success: function(data){
+								//console.log(data);
+								if(data.error_code != '200')
+								{
+									$('#error_msg').show();
+									$('#msg_body').html(data.error_msg);
+									$.blockUI({ message: ''});
+									//alert(data.error_msg);
+								}
+								//console.log(data);
+							},
+							complete: function(){
+								window.location.href='<?php echo site_url()?>stock';
+							}
+						});
+					}
+					
                 });
+				/*$('.jsave_stock').live('click',function(){
+					$("#stock_form").submit();
+				})*/
+				 $("#stock_form").validate({
+                      rules: {
+                            models_id: {
+                                  required : true
+                            },
+							imei_number: {
+                                  required : true
+                            },
+                        },
+                        messages: {
+                            models_id: {
+									required : "Please Select Model"
+                                    },
+                            imei_number: {
+                                    required : "Please enter Product IMEI"
+                                    },
+                        },
+                        submitHandler: function()
+                        {
+                           $.ajax({
+								type: "POST",
+								url: '<?php echo site_url();?>stock/saveStock',
+								data: $('#stock_form').serialize(),
+								dataType:'json',
+								beforeSend : function(){
+								},
+								success: function(data){
+									console.log(data);
+									if(data.error_code != '200')
+									{
+										$('#error_msg').show();
+										$('#msg_body').html(data.error_msg);
+										$.blockUI({ message: ''});
+										//alert(data.error_msg);
+									}
+									//console.log(data);
+								},
+								complete: function(){
+									window.location.href='<?php echo site_url()?>stock';
+								}
+							});
+                         }
+        		});
                 $('.setheight').css('min-height',$(window).height()-230);
                 $('.imei_number').css('height',$(window).height()-330);
 

@@ -33,6 +33,7 @@ class Stock_model extends MY_Model{
             }
             //echo $sql;die;
             $this->db->query(rtrim($sql,','));
+			return array('error_code'=>200,'error_msg'=>'success');
         }
         else
         {
