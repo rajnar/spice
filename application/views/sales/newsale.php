@@ -34,7 +34,7 @@
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
         <script src="<?php echo base_url();?>public/assets/js/jquery.js" type="text/javascript"></script>
-        <script src="<?php echo base_url();?>public/assets/js/bootbox.js" rel="stylesheet"  />
+        <script src="<?php echo base_url();?>public/assets/js/bootbox.js" rel="stylesheet"/></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/js/i18n/grid.locale-en.js" type="text/javascript" language="javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/src/grid.base.js" type="text/javascript" language="javascript"></script>
         <link rel="stylesheet" href="<?php echo base_url();?>public/assets/js/jquery-ui-1.8.21/css/smoothness/jquery-ui-1.8.21.custom.css" />
