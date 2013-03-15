@@ -206,7 +206,7 @@ $.extend($.validator, {
 		rules: {},
 		errorClass: "error",
 		validClass: "valid",
-		errorElement: "label",
+		errorElement: "div",
 		focusInvalid: true,
 		errorContainer: $( [] ),
 		errorLabelContainer: $( [] ),
