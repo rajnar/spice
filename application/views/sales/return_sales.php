@@ -96,7 +96,7 @@
                         beforeSend : function(){
                         },
                         success: function(Rdata){
-                            //window.location.href='<?php echo site_url();?>sales/invoice/'+Rdata;
+                            window.location.href='<?php echo site_url();?>sales/invoice/'+Rdata;
                         },
                         complete: function(){
                         }

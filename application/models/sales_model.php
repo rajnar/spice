@@ -24,8 +24,11 @@ class Sales_model extends MY_Model {
             $ret_products_str = implode($ret_products,'","');
             $update_retsales_sql = 'UPDATE products p SET p.`status` = "c" WHERE p.imei_number IN ("'.$ret_products_str.'")';
             $this->db->query($update_retsales_sql);
-            $del_sq = 'delete from sales_products where sales_id='.$invoice_number;
-            $this->db->query($del_sq);
+            $del_sql = 'delete from sales_products where sales_id='.$invoice_number;
+            $this->db->query($del_sql);
+
+            $pay_remove_sql = 'delete from sales_payment_details where sales_id='.$invoice_number;
+            $this->db->query($pay_remove_sql);
         }
         else
         {

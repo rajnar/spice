@@ -77,6 +77,10 @@
         <div class="container-fluid" style="min-height:400px">
             <div class="row-fluid" id="main_div">
                 <div class="span12">
+                    <?php
+                    if(!empty($details_rs))
+                    {
+                    ?>
                     <div class="modal-header">
                         <span class="mydate">Date: <?php echo date('d/m/Y h:i:s a',strtotime($details_rs->date_added));?> </span>
                         <h3>Invoice: <?php echo $details_rs->invoice_number;?></h3>
@@ -116,13 +120,38 @@
                         </div>
                         <div>
                             <span class="field">Products Sold (IMEI Numbers):</span>
-                            <span class="value"><?php echo $details_rs->balance_amount;?></span>
+                            <div class="span12" style="margin-left:0;margin-top:5px">
+                                <table cellpadding="6" cellspacing="0" border="1" style="width:inherit">
+                                    <?php
+                                    $tot_imei = count($products);
+                                    for($i=0;$i<$tot_imei;$i++)
+                                    {
+                                        if($i%5 == 0)
+                                        {
+                                            if($i != 0)
+                                            {
+                                                echo '</tr>';
+                                            }
+                                            echo '<tr>';
+                                        }
+                                        echo '<td>'.$products[$i]->imei_number.'</td>';
+                                    }
+                                    ?>
+                                </table>
+                            </div>
                         </div>
 
                         <div id="sale_details" style="display:none">
 
                         </div>
                     </div>
+                    <?php
+                    }
+                    else
+                    {
+                        echo 'Invalid Invoice ID';
+                    }
+                    ?>
                 </div><!--/span-->
             </div><!--/row-->
             <hr>
