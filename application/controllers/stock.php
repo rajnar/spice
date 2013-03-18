@@ -57,6 +57,10 @@ class Stock extends Main_Controller {
         print_r($_POST);die;*/
         $data['details'] = $this->stock_model->getStockDetails($_POST);
         $data['customers'] = $this->customers_model->getCustomers();
+        
+        $data['invoice_details']['details_rs'] = tableEmptyValues('sales');
+        $data['invoice_details']['details_rs']->amount_paid = '';
+        //print_r($data['invoice_details']);die;
         $html = $this->load->view('sales/sale_details',$data,true);
         echo $html;
         //print_r($details);

@@ -13,12 +13,26 @@ class Sales_model extends MY_Model {
     }
 
     function saveSale() {
-    //print_r($_POST);
+        //print_r($_POST);die;
         $max_sql = 'select max(id)+1 as maxid from sales';
         $rs = $this->getDBResult($max_sql,'object');
-        $invoice_number = 1;
-        if(!is_null($rs[0]->maxid)) {
-            $invoice_number = $rs[0]->maxid;
+        if(isset($_POST['invoice']))
+        {
+            $invoice_number = $_POST['invoice'];
+            $ret_products = explode("\r\n",trim($_POST['ret_products'],"\n"));
+            array_walk($ret_products, 'mytrim');
+            $ret_products_str = implode($ret_products,'","');
+            $update_retsales_sql = 'UPDATE products p SET p.`status` = "c" WHERE p.imei_number IN ("'.$ret_products_str.'")';
+            $this->db->query($update_retsales_sql);
+            $del_sq = 'delete from sales_products where sales_id='.$invoice_number;
+            $this->db->query($del_sq);
+        }
+        else
+        {
+            $invoice_number = 1;
+            if(!is_null($rs[0]->maxid)) {
+                $invoice_number = $rs[0]->maxid;
+            }
         }
         $_POST['invoice_number'] = $invoice_number;
         $sales_id = $this->saveRecord(conversion($_POST,'sales_lib'),'sales');

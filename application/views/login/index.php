@@ -24,12 +24,16 @@
             select{
                 width:50px;
             }
-            div.error, div.gerror{
+            div.error{
                 padding:0px 0px 9px 140px;
                 color:#FF0000;
                 font-size:14px;
                 font-family:Arial, Helvetica, sans-serif;
                 width:300px;
+            }
+            div.gerror{
+                color:red;
+                padding-bottom:9px;
             }
         </style>
         <link href="<?php echo base_url();?>public/assets/css/bootstrap-responsive.css" rel="stylesheet">
@@ -119,6 +123,8 @@
                             <h3>Login</h3>
                         </div>
                         <div class="modal-body">
+                            <div id="gerror" class="gerror">
+                            </div>
                             <div><label>Username :</label><input type="text" id="uname" name="uname" autocomplete="off" /></div>
                             <div><label>Password :</label><input type="password" id="upwd" name="upwd" autocomplete="off" /></div>
                             <div><input class="btn" type="submit" name="login" id="login" value="Login"> </div>

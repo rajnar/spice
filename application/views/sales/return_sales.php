@@ -63,29 +63,47 @@
                         }
                     });
                 });
-                /*$('#done').click(function(){
-                    if($('#products').val() == '')
+                $('#done').click(function(){
+                    if($('#invoice').val() == '')
                     {
-                        bootbox.alert("Please Select Products to Sell");
+                        bootbox.alert("Please Enter Invoice Number");
                     }
                     else
                     {
                         $.ajax({
                             type: "POST",
-                            url: '<?php echo site_url();?>stock/getStockDetails',
-                            data: 'products='+$('#products').val(),
+                            url: '<?php echo site_url();?>sales/getInvoiceDetails',
+                            data: 'invoice_id='+$('#invoice').val()+'&ret_products='+$('#ret_products').val(),
                             beforeSend : function(){
                             },
                             success: function(data){
                                 $('#return_sale_details').html(data).show();
+                                $('#discount').trigger('blur');
                             },
                             complete: function(){
+
                             }
                         });
                     }
-                });*/
+                });
+
+                $('.jsave_sale').live('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo site_url();?>sales/saveSale',
+                        data: $('#return_sale_form').serialize()+'&amount_after_discount='+$('#amount_after_discount').val(),
+                        //dataType:'json',
+                        beforeSend : function(){
+                        },
+                        success: function(Rdata){
+                            //window.location.href='<?php echo site_url();?>sales/invoice/'+Rdata;
+                        },
+                        complete: function(){
+                        }
+                    });
+                });
                 //$('.setheight').css('min-height',$(window).height()-230);
-                $('#products').css('height',$(window).height()-330);
+                //$('#ret_products').css('height',$(window).height()-500);
             });
         </script>
     </head>
@@ -101,13 +119,15 @@
                             <h3>Return Sale</h3>
                         </div>
                         <div class="modal-body">
-                            <div><label>Select Products:
-                                    <textarea name="products" id="products"></textarea>
-                                </label></div>
-                            <div class="btn btn-primary jreturn_sale" id="done">Return Sale</div>
-                            
+                            <div><label>Invoice Number: <input type="text" name="invoice" id="invoice"></label></div>
+                            <div><label>Select Return Products:
+                                    <textarea name="ret_products" id="ret_products" style="height:150px"></textarea>
+                            </label></div>
+                            <div class="btn btn-primary" id="done">Done</div>
+
+                            <!--<div class="btn btn-primary jreturn_sale" id="done">Return Sale</div>-->
                             <div id="return_sale_details" style="display:none">
-                                
+
                             </div>
                         </div>
 
@@ -119,7 +139,7 @@
                 <p>&copy; Company 2012</p>
             </footer>
         </div><!--/.fluid-container-->
-        
+
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
