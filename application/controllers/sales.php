@@ -76,4 +76,125 @@ class Sales extends Main_Controller {
         $sdata['customers'] = $this->customers_model->getCustomers();
         echo $html = $this->load->view('sales/sale_details',$sdata,true);
     }
+	public function invoice_excel($invoice_id=14) {
+        $data = $this->sales_model->getInvoiceDetails($invoice_id);
+		//echo '<pre>'; print_r($data);die;
+		
+		include(APPPATH.'third_party/PHPExcel.php');
+		include(APPPATH.'third_party/PHPExcel/Writer/Excel2007.php');
+		
+		$objPHPExcel = new PHPExcel();
+		$objPHPExcel->getProperties()->setCreator('');
+        $objPHPExcel->getProperties()->setLastModifiedBy('');
+        $objPHPExcel->getProperties()->setTitle('');
+        $objPHPExcel->getProperties()->setSubject('');
+
+        $user = 'Narendra';
+		$tilte_heading = 'Invoice';
+        $row=1;
+
+        $rep_gen_by = 'Invoice Generated  on '.date('m/d/y h:i A');
+
+        $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, $rep_gen_by);
+		$row++;
+		$column = 'A';
+		//echo '<pre>';
+		//print_r($headers);
+		//print_r($values);
+		//die;
+        if(!empty($data)) {
+         $first_row = $row; 
+		 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth('25');
+		 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth('25');
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Invoice');
+		 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row, $data['details_rs']->invoice_number);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Invoice Date');
+		 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row, $data['details_rs']->date_added);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Customer Name');
+		 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row, $data['details_rs']->customer_name);
+		 $row++;
+		 $address = $data['details_rs']->address."\n".$data['details_rs']->city."\n".$data['details_rs']->state."\n".$data['details_rs']->zip;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Address');
+		 $objPHPExcel->getActiveSheet()->SetCellValue('B'.$row, $address);
+		 $row++;
+		 $contact_numbers =  $data['details_rs']->phone_number1.",\n". $data['details_rs']->phone_number2;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Contact Numbers');
+ 		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $contact_numbers,PHPExcel_Cell_DataType::TYPE_STRING);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Total Sale Amount (Rs)');
+		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $data['details_rs']->total_sale_amount,PHPExcel_Cell_DataType::TYPE_STRING);		 
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Discount (Rs)');
+		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $data['details_rs']->discount,PHPExcel_Cell_DataType::TYPE_STRING);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Payable Amount (Rs)');
+ 		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $data['details_rs']->amount_after_discount,PHPExcel_Cell_DataType::TYPE_STRING);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Paid Amount (Rs)');
+		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $data['details_rs']->amount_paid,PHPExcel_Cell_DataType::TYPE_STRING);
+ 		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Balance Amount (Rs)');
+		 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $data['details_rs']->balance_amount,PHPExcel_Cell_DataType::TYPE_STRING);
+		 $row++;
+		 $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, 'Products Sold (IMEI Numbers)');
+			$products = $data['products'];
+			$tot_imei = count($products);
+			
+			for($i=0;$i<$tot_imei;$i++)
+			{
+				 $objPHPExcel->getActiveSheet()->setCellValueExplicit('B'.$row, $products[$i]->imei_number,PHPExcel_Cell_DataType::TYPE_STRING);
+				 $row++;					 
+			}
+				
+		
+		$range = 'A'.$first_row.':'.'B'.$row;
+		$objPHPExcel->getActiveSheet()->duplicateStyleArray(
+                    array(
+                    'font' => array(
+                    'name'         => 'Arial',
+                    'bold'         => false,
+                    'italic'    => false,
+                    'size'        => 9
+                    ),
+                    'alignment' => array(
+                    'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                    'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+                    'wrap'       => true
+                    ),
+                    'borders' =>array(
+                    'allborders' => array(
+                    'style' => PHPExcel_Style_Border::BORDER_THIN
+                    )
+                    )
+                    ),
+                    //$go_first_clmn.$row.':'.$go_last_clmn.$row
+                    $range
+                );
+
+		 }		
+		//die;
+		 $objPHPExcel->setActiveSheetIndex(0);
+        // Rename sheet
+        $objPHPExcel->getActiveSheet()->setTitle('aa');
+
+        // Save Excel 2003 file
+        $objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+        $filename = 'invoice_'.$invoice_id.'.xls';
+        $url = 'downloads/'.$filename;
+		//$url = $filename;
+        //$res = $objWriter->save($url);
+        //$this->download($filename);
+        if($objWriter->save($url) == '') {
+            echo json_encode(array('status_code'=>200,'status_message'=>'success','filename'=>''));
+        }
+        else {
+            echo json_encode(array('status_code'=>201,'status_message'=>'Unable to generate Excel'));
+        }
+	
+		
+		
+		
+    }
 }
