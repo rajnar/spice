@@ -23,7 +23,7 @@ class Sales extends Main_Controller {
     }
 
     public function saveSale() {
-    //print_r($_POST);die;
+        //print_r($_POST);die;
         $invoice_id = $this->sales_model->saveSale();
         echo $invoice_id;
     //echo json_encode(array('invoice_id'=>$invoice_id));

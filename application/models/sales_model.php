@@ -18,7 +18,7 @@ class Sales_model extends MY_Model {
         $rs = $this->getDBResult($max_sql,'object');
         if(isset($_POST['invoice']))
         {
-            $invoice_number = $_POST['invoice'];
+            $sales_id = $invoice_number = $_POST['invoice'];
             $ret_products = explode("\r\n",trim($_POST['ret_products'],"\n"));
             array_walk($ret_products, 'mytrim');
             $ret_products_str = implode($ret_products,'","');
@@ -29,6 +29,7 @@ class Sales_model extends MY_Model {
 
             $pay_remove_sql = 'delete from sales_payment_details where sales_id='.$invoice_number;
             $this->db->query($pay_remove_sql);
+            $this->saveRecord(conversion($_POST,'sales_lib'),'sales');
         }
         else
         {
@@ -36,9 +37,9 @@ class Sales_model extends MY_Model {
             if(!is_null($rs[0]->maxid)) {
                 $invoice_number = $rs[0]->maxid;
             }
+            $_POST['invoice_number'] = $invoice_number;
+            $sales_id = $this->saveRecord(conversion($_POST,'sales_lib'),'sales');
         }
-        $_POST['invoice_number'] = $invoice_number;
-        $sales_id = $this->saveRecord(conversion($_POST,'sales_lib'),'sales');
 
         $data = array('sales_id'=>$sales_id,'amount'=>$_POST['amount']);
         $receipt_sql = 'select max(id)+1 as maxid from sales_payment_details';

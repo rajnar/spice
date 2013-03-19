@@ -14,7 +14,7 @@ class Stock extends Main_Controller {
         $sql = 'SELECT m.name, m.model_number, m.price, p.id, p.imei_number
                 FROM products p
                 INNER JOIN models m ON m.id = p.models_id
-                WHERE m.`status` = "a" AND p.`status` = "a"';
+                WHERE m.`status` = "a" AND p.`status` in ("a","c")';
         $data_flds = array('name','model_number','price','imei_number');//,"<a href='".base_url()."users/addCustomer/{%id%}' id='{%id%}'>Edit</a>"
 	echo $this->stock_model->display_grid($_POST,$sql,$data_flds);
     }
@@ -29,7 +29,7 @@ class Stock extends Main_Controller {
         $sql = 'SELECT m.id, m.name, m.model_number, m.price, COUNT(p.imei_number) AS total_pieces
                 FROM models m
                 LEFT JOIN products p ON m.id = p.models_id
-                WHERE m.`status` = "a" and p.status = "a"
+                WHERE m.`status` = "a" and p.status in ("a","c")
                 GROUP BY m.id';
         $data_flds = array('name','model_number','price','total_pieces');
         echo $this->stock_model->display_grid($_POST,$sql,$data_flds);
