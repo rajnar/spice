@@ -119,8 +119,6 @@ class Excel_generation_lib {
         else {
             echo json_encode(array('status_code'=>201,'status_message'=>'Unable to generate Excel'));
         }
-        
-		echo 54545;
 	}
 
 }
