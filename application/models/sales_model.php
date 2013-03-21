@@ -104,6 +104,33 @@ class Sales_model extends MY_Model {
         $rs = $qry->result();
         return $rs;
     }
+
+    public function saveAmount($data)
+    {
+        $receipt_sql = 'select max(id)+1 as maxid from sales_payment_details';
+        $receipt_rs = $this->getDBResult($receipt_sql,'object');
+        $data['receipt_number'] = 1;
+        if(!is_null($receipt_rs[0]->maxid)) {
+            $data['receipt_number'] = $receipt_rs[0]->maxid;
+        }
+        $payment_id = $this->saveRecord(conversion($data,'sales_payment_details_lib'),'sales_payment_details');
+        $pay_details = $this->getPayDetails($data['sales_id']);
+        $pay_details[0]->receipt_number = $data['receipt_number'];
+        return $pay_details[0];
+    }
+
+    public function getPayDetails($invoice_id)
+    {
+        $sql = 'SELECT CONCAT(c.first_name," ",c.last_name) AS name,c.phone_number1, c.phone_number2,
+                s.invoice_number, s.total_sale_amount, s.discount, s.amount_after_discount, s.other_details, s.date_added, SUM(spd.amount) AS amount_paid, (s.amount_after_discount- SUM(spd.amount)) AS balance_amount
+                FROM sales s
+                INNER JOIN customers c ON c.id = s.customers_id
+                INNER JOIN sales_payment_details spd ON spd.sales_id = s.invoice_number
+                WHERE s.invoice_number = '.$invoice_id.'
+                GROUP BY invoice_number';
+        $rs = $this->getDBResult($sql,'object');
+        return $rs;
+    }
 }
 
 ?>
