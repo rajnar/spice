@@ -13,13 +13,28 @@ class Sales extends Main_Controller {
         $sql = 'SELECT s.id,s.invoice_number,s.customers_id,s.total_sale_amount,s.discount,s.amount_after_discount,
                 s.payment_method,s.other_details,DATE_FORMAT(s.date_added,"%d/%m/%Y %h:%i:%s %p") as date_added,
                 c.id AS cusid, CONCAT(c.first_name," ",c.last_name) AS name, SUM(spd.amount) AS total_paid,
-                (s.amount_after_discount- SUM(spd.amount)) AS balance
+                TRUNCATE((s.amount_after_discount- SUM(spd.amount)),2) AS balance
                 FROM sales s
                 INNER JOIN customers c ON c.id = s.customers_id
                 RIGHT JOIN sales_payment_details spd ON spd.sales_id = s.id
                 GROUP BY sales_id';
-        $data_flds = array('invoice_number','name','total_sale_amount','discount','amount_after_discount','total_paid','balance','payment_method','date_added',"<a href='".base_url()."users/addCustomer/{%id%}' id='{%id%}'>Edit</a>");
+        $data_flds = array('invoice_number','name','total_sale_amount','discount','amount_after_discount','total_paid','balance','payment_method','date_added',"<a href='".base_url()."sales/payAmount/{%id%}' id='{%id%}'>Pay Amount</a>");
         echo $this->sales_model->display_grid($_POST,$sql,$data_flds);
+    }
+
+    public function payAmount($invoice_id)
+    {
+        $header_data['active_tab'] = 'sales';
+        $header_data['user_details'] = $this->user_details;
+        $data['header'] = $this->load->view('include/my_header',$header_data,true);
+        $data['invoice_id'] = $invoice_id;
+        $this->load->view('sales/payamount',$data);
+    }
+
+    public function saveAmount()
+    {
+        $data['pay_details'] = $this->sales_model->saveAmount($_POST);
+        echo $this->load->view('sales/receipt_details',$data);
     }
 
     public function saveSale() {
