@@ -6,7 +6,30 @@ class Reports extends Main_Controller {
 		$this->load->library('excel_generation_lib');
     }
 	
-	public function index() {}
+	public function index() {
+		 $header_data['active_tab'] = 'reports';
+        $header_data['user_details'] = $this->user_details;
+        $data['header'] = $this->load->view('include/my_header',$header_data,true);
+		$data['cutomers'] = $this->reports_model->getCustomers();
+        $this->load->view('reports/index',$data);
+	}
+	
+	public function getCustomresInvData() {
+		
+		$this->reports_model->getCustomresInvData(true);
+	}
+	
+	public function generateExcel()
+	{
+		$return_data = $this->reports_model->getCustomresInvData(false);
+		//print_r($_POST); die;
+		$data['headers'] = array('Invoice Number','Name','Address','Contact Numbers','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added');
+		$data['values'] = $return_data;
+		
+		//echo '<pre>'; print_r($data); die;
+		$this->excel_generation_lib->excel_generation($data);
+		
+	}
 
     public function invoiceReport()
     {
