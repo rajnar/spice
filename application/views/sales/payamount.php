@@ -85,6 +85,10 @@
                 });
                 //$('.setheight').css('min-height',$(window).height()-230);
                 $('#products').css('height',$(window).height()-330);
+
+                $('#back2grid').live('click',function(){
+                    window.location.href = '<?php echo site_url()?>sales/';
+                });
             });
         </script>
     </head>
@@ -97,6 +101,7 @@
                 <div class="span12">
                     <form name="amt_form" id="amt_form" method="post" >
                         <input type="hidden" name="sales_id" value="<?php echo $invoice_id;?>">
+                        <div><a href="<?php echo site_url();?>sales/"><< Back</a></div>
                         <div class="modal-header">
                             <h3>Pay Amount for Invoice:<?php echo $invoice_id;?></h3>
                         </div>

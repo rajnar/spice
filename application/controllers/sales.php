@@ -18,7 +18,7 @@ class Sales extends Main_Controller {
                 INNER JOIN customers c ON c.id = s.customers_id
                 RIGHT JOIN sales_payment_details spd ON spd.sales_id = s.id
                 GROUP BY sales_id';
-        $data_flds = array('invoice_number','name','total_sale_amount','discount','amount_after_discount','total_paid','balance','payment_method','date_added',"<a href='".base_url()."sales/payAmount/{%id%}' id='{%id%}'>Pay Amount</a>");
+        $data_flds = array('invoice_number','name','total_sale_amount','discount','amount_after_discount','total_paid','balance','payment_method','date_added',"<a href='".base_url()."sales/payAmount/{%id%}' id='{%id%}' class='btn-small'>Bill Payment</a>");
         echo $this->sales_model->display_grid($_POST,$sql,$data_flds);
     }
 
