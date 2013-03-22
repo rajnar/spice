@@ -58,7 +58,7 @@
                     url:'<?php echo site_url();?>sales/getSales',
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Invoice Number','Name','Total Sale Aamount','Discount (%)','Amount after Discount','Total Amount Paid','Balance Amount','Payment Method','Date Added','Edit'],
+                    colNames:['Invoice Number','Name','Total Sale Aamount','Discount (%)','Amount after Discount','Total Amount Paid','Balance Amount','Payment Method','Date Added','Pay Amount'],
                     colModel:[
                         {name:'invoice_number',index:'invoice_number',width:'10%'},
                         {name:'name',index:'name',width:'10%'},

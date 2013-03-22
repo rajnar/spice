@@ -23,7 +23,7 @@
             select{
                 width:50px;
             }
-			div.error {
+            div.error {
                 color: red;
             }
         </style>
@@ -40,7 +40,7 @@
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
         <script src="<?php echo base_url();?>public/assets/js/jquery.js" type="text/javascript"></script>
-		<script src="<?php echo base_url();?>public/assets/js/validate.js" type="text/javascript"></script>
+        <script src="<?php echo base_url();?>public/assets/js/validate.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/js/i18n/grid.locale-en.js" type="text/javascript" language="javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/src/grid.base.js" type="text/javascript" language="javascript"></script>
         <link rel="stylesheet" href="<?php echo base_url();?>public/assets/js/jquery-ui-1.8.21/css/smoothness/jquery-ui-1.8.21.custom.css" />
@@ -55,6 +55,10 @@
                 $('.pn').click(function(){
                     $('.active').removeClass('active');
                     $(this).addClass('active');
+                });
+
+                $('.close').live('click',function(){
+                    window.location.href = '<?php echo site_url()?>models/';
                 });
 
                 jQuery("#models_grid_tbl").jqGrid431({
@@ -84,7 +88,7 @@
                     }
                 });
 
-               /* $('.jsave_model').click(function(){
+                /* $('.jsave_model').click(function(){
                     $.ajax({
                         type: "POST",
                         url: '<?php echo site_url();?>models/saveModel',
@@ -99,55 +103,55 @@
                         }
                     });
                 });*/
-				
-				$('.jsave_model').live('click',function(){
-                	$("#model_form").submit();
-            	})
-				
-				 $("#model_form").validate({
-                rules: {
-                    name: {
-                        required : true
-                    },
-                    model_number: {
-                        required : true
-                    },
-					 price: {
-                        required : true,
-						number: true
-                    },
-                    
-                },
-                messages: {
-                    name: {
-                        required : "Please enter First Name"
-                    },
-                    model_number: {
-                        required : "Please enter Last Name"
-                    },
-					 price: {
-                        required : "Please Enter Address",
-						number:"Model Price Should be number"
-                    },
-                },
-                submitHandler: function()
-                {
-                    $.ajax({
-                        type: "POST",
-                        url: '<?php echo site_url();?>models/saveModel',
-                        data: $('#model_form').serialize(),
-                        beforeSend : function(){
+
+                $('.jsave_model').live('click',function(){
+                    $("#model_form").submit();
+                })
+
+                $("#model_form").validate({
+                    rules: {
+                        name: {
+                            required : true
                         },
-                        success: function(){
-							window.location.href='<?php echo site_url();?>models/';
+                        model_number: {
+                            required : true
                         },
-                        complete: function(){
-                            jQuery("#models_grid_tbl").trigger("reloadGrid");
-                            $('#myModal').find('.close').trigger('click');
-                        }
-                    });
-                }
-            });
+                        price: {
+                            required : true,
+                            number: true
+                        },
+
+                    },
+                    messages: {
+                        name: {
+                            required : "Please enter First Name"
+                        },
+                        model_number: {
+                            required : "Please enter Last Name"
+                        },
+                        price: {
+                            required : "Please Enter Address",
+                            number:"Model Price Should be number"
+                        },
+                    },
+                    submitHandler: function()
+                    {
+                        $.ajax({
+                            type: "POST",
+                            url: '<?php echo site_url();?>models/saveModel',
+                            data: $('#model_form').serialize(),
+                            beforeSend : function(){
+                            },
+                            success: function(){
+                                window.location.href='<?php echo site_url();?>models/';
+                            },
+                            complete: function(){
+                                jQuery("#models_grid_tbl").trigger("reloadGrid");
+                                $('#myModal').find('.close').trigger('click');
+                            }
+                        });
+                    }
+                });
 
                 $('.cmodel_edit').live('click',function(){
                     $.ajax({
@@ -166,7 +170,7 @@
                         },
                         complete: function(){
                             //jQuery("#models_grid_tbl").trigger("reloadGrid");
-                           // $('#myModal').find('.close').trigger('click');
+                            // $('#myModal').find('.close').trigger('click');
                         }
                     });
                 });
@@ -239,7 +243,6 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-primary jsave_model">Save changes</a>
-                    <a href="#" class="btn" data-dismiss="modal">Close</a>
                 </div>
             </form>
         </div>
