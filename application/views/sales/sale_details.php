@@ -85,8 +85,8 @@ if($valid_sale)
     <input type="radio" name="payment_method" value="cr"> Credit
 </div>-->
 <div><label>Total Sale Amount: <input type="text" disabled name="amount_after_discount" id="amount_after_discount" value="<?php echo $details['overall_details']['total_sum'];?>"></label></div>
-<div><label>Amount Paid: <input type="text" name="amount" value="<?php echo $invoice_details['details_rs']->amount_paid;?>""></label></div>
-<div><label>Other Details: <textarea name="other_details"><?php echo $invoice_details['details_rs']->other_details;?></textarea></label></div>
+<div><label>Amount Paid: <input type="text" name="amount" id=name="amount" value="<?php echo $invoice_details['details_rs']->amount_paid;?>""></label></div>
+<div><label>Other Details: <textarea name="other_details" id="other_details"><?php echo $invoice_details['details_rs']->other_details;?></textarea></label></div>
 <div>
     <a class="btn btn-primary jsave_sale">Submit</a>
 </div>

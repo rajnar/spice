@@ -60,7 +60,7 @@ class Sales_model extends MY_Model {
         $sql = 'INSERT INTO sales_products ( sales_id,products_id ) values ';
         foreach($sale_products['products'] as $prod_id) {
             if($prod_id != '') {
-                $sql .= '('.$sales_id.','.$prod_id->imei_number.'),';
+                $sql .= '('.$sales_id.',"'.$prod_id->imei_number.'"),';
             }
         }
         $this->db->query(rtrim($sql,','));

@@ -20,6 +20,9 @@
             .bold{
                 font-weight:bold
             }
+			.error {
+                color: red;
+            }
         </style>
         <link href="<?php echo base_url();?>public/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -34,6 +37,7 @@
         <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
         <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
         <script src="<?php echo base_url();?>public/assets/js/jquery.js" type="text/javascript"></script>
+		<script src="<?php echo base_url();?>public/assets/js/validate.js" type="text/javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/bootbox.js" rel="stylesheet"/></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/js/i18n/grid.locale-en.js" type="text/javascript" language="javascript"></script>
         <script src="<?php echo base_url();?>public/assets/js/jqGrid-4.3.1/src/grid.base.js" type="text/javascript" language="javascript"></script>
@@ -47,7 +51,59 @@
                 });
 
                 $('#main_div').css('min-height',$(window).height()-130);
-                $('.jsave_sale').live('click',function(){
+				
+				$('.jsave_sale').live('click',function(){
+                	$("#sale_form").submit();
+            	});
+				
+				$("#sale_form").validate({
+					rules: {
+						customers_id: {
+							required : true
+						},
+						payment_method: {
+							required : true
+						},
+						 amount: {
+							required : true
+						},
+						other_details: {
+							required : true
+						},
+					},
+					messages: {
+						customers_id: {
+							required : "Please Customer"
+						},
+						payment_method: {
+							required : "Please select Payment Method"
+						},
+						 amount: {
+							required : "Please Enter Amount"
+						},
+						other_details: {
+							required : "Please enter Other Details"
+						},
+					},
+					submitHandler: function()
+					{
+						$.ajax({
+							type: "POST",
+							url: '<?php echo site_url();?>sales/saveSale',
+							data: $('#sale_form').serialize()+'&amount_after_discount='+$('#amount_after_discount').val(),
+							//dataType:'json',
+							beforeSend : function(){
+							},
+							success: function(Rdata){
+								window.location.href='<?php echo site_url();?>sales/invoice/'+Rdata;
+							},
+							complete: function(){
+							}
+						});
+					}
+				});
+				
+                /*$('.jsave_sale').live('click',function(){
                     $.ajax({
                         type: "POST",
                         url: '<?php echo site_url();?>sales/saveSale',
@@ -61,7 +117,8 @@
                         complete: function(){
                         }
                     });
-                });
+                });*/
+				
                 $('#done').click(function(){
                     if($('#products').val() == '')
                     {
