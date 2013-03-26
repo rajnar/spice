@@ -131,17 +131,27 @@
                                 $.blockUI({ message: ''});
                                 //alert(data.error_msg);
                             }
+                            else
+                            {
+                                $('#error_msg').show();
+                                var html = '<div>'+data.error_msg+'</div>'
+                                html += '<div style="float:right"><input type="button" class="ok" name="ok" value="OK"></div>';
+                                $('#msg_body').html(html);
+                                $.blockUI({ message: ''});
+                            }
                             //console.log(data);
                         },
                         complete: function(){
-                            window.location.href='<?php echo site_url()?>stock';
+                            //window.location.href='<?php echo site_url()?>stock';
                         }
                     });
                 }
             });
             $('.setheight').css('min-height',$(window).height()-230);
             $('.imei_number').css('height',$(window).height()-330);
-
+            $('.ok').live('click',function(){
+                window.location.href='<?php echo site_url()?>stock';
+            });
             $('.close').live('click',function(){
                 $.unblockUI();
                 $('#error_msg').hide();
