@@ -5,6 +5,7 @@ class Excel_generation_lib {
 	{
         $headers = $data['headers'];
 		$values = $data['values'];
+		$date_range = $data['date_range'];
 		
 		include(APPPATH.'third_party/PHPExcel.php');
 		include(APPPATH.'third_party/PHPExcel/Writer/Excel2007.php');
@@ -14,13 +15,46 @@ class Excel_generation_lib {
         $objPHPExcel->getProperties()->setLastModifiedBy('');
         $objPHPExcel->getProperties()->setTitle('');
         $objPHPExcel->getProperties()->setSubject('');
-
+		$sub_title = '';
+		if($date_range['fromdate']!='' && $date_range['todate']!='')
+		{
+			$sub_title = "Invoice Details between ".$date_range['fromdate']." and ".$date_range['todate'];
+		}
+				
 		$tilte_heading = 'Invoice';
         $row=1;
 
         $rep_gen_by = 'Report Generated on '.date('m/d/y h:i A');
 
         $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, $rep_gen_by);
+		if($sub_title !='')
+		{
+			$objPHPExcel->getActiveSheet()->mergeCellsByColumnAndRow(2,$row,4,$row);
+			$objPHPExcel->getActiveSheet()->SetCellValue('C'.$row, $sub_title);
+			$objPHPExcel->getActiveSheet()->getStyle('C1')->applyFromArray(
+            array(
+            'font' => array(
+            'name'         => 'Arial',
+            'bold'         => false,
+            'italic'    => false,
+            'size'        => 10,
+            'color'     => array(
+            'rgb' => '000000'
+            )
+            ),
+            'alignment' => array(
+            'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+            'vertical'   => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+            'wrap'       => true
+            ),
+            'borders' =>array(
+            'allborders' => array(
+            'style' => PHPExcel_Style_Border::BORDER_THIN
+            )
+            )
+            )
+        );
+		}
 		$row++;
 		$heading = 'SIREE MOBILES';
 		$objPHPExcel->getActiveSheet()->mergeCellsByColumnAndRow(0,$row,10,$row);

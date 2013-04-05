@@ -23,18 +23,26 @@ class Reports extends Main_Controller {
 	{
 		$return_data = $this->reports_model->getCustomresInvData(false);
 		//print_r($_POST); die;
+		$data['date_range'] = $_POST;
 		$data['headers'] = array('Invoice Number','Name','Address','Total Sale Aamount(Rs)','Discount(Rs.)','Amount after Discount(Rs)','VAT','Total Amount(Rs)','Total Amount Paid(Rs)','Balance Amount(Rs)','Invoice Date');
 		$data['values'] = $return_data;
-		
-		//echo '<pre>'; print_r($data); die;
-		 $filename = $this->excel_generation_lib->excel_generation($data);
-		//die;
-		$this->download($filename);
+		if(!empty($return_data))
+		{
+			//echo '<pre>'; print_r($data); die;
+		 	$filename = $this->excel_generation_lib->excel_generation($data);
+			//die;
+			$this->download($filename);
+			echo json_encode(array('error_code'=>200,'error_msg'=>'Success'));
+		}
+		else
+		{
+			echo json_encode(array('error_code'=>301,'error_msg'=>'No Data Available'));
+		}
 		
 	}
 	public function download($filename) {
-        //$filename = $filename;
-        $data = file_get_contents("downloads/".$filename); // Read the file's contents
+        
+		$data = file_get_contents("downloads/".$filename); // Read the file's contents
         force_download($filename, $data);
     }	
 

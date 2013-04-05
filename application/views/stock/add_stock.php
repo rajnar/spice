@@ -123,7 +123,6 @@
                         beforeSend : function(){
                         },
                         success: function(data){
-                            console.log(data);
                             if(data.error_code != '200')
                             {
                                 $('#error_msg').show();

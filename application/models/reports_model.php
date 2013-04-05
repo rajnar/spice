@@ -14,12 +14,25 @@ class Reports_model extends MY_Model {
 
     function getCustomresInvData($from_grid=true)
 	{
+		//print_r($_REQUEST);
+		$date_sql = '';
+		$custsomer_sql = '';
 		$order_qry = "order by s.date_added desc ";
+		if($_REQUEST['fromdate']!='' && $_REQUEST['todate']!='')
+		{
+			$fromdate = date('Y-m-d',strtotime($_REQUEST['fromdate']));
+			$todate = date('Y-m-d',strtotime($_REQUEST['todate']));
+			$date_sql = ' AND DATE_FORMAT(s.date_added,"%Y-%m-%d") >="'.$fromdate.'" and DATE_FORMAT(s.date_added,"%Y-%m-%d") <="'.$todate.'"';
+		}
+		if($_REQUEST['customer_id']!='all')
+		{
+			$custsomer_sql = " AND s.customers_id=".$_REQUEST['customer_id'];
+		}
+		
 		if($from_grid)
 		{
 			$order_qry = '';
 		}
-		$customer_id = $_REQUEST['customer_id'];	
 		 $sql = 'select s.id,
 		 		concat("SIREE","",LPAD(s.invoice_number,8,0)) as invoice_number,
 				concat(c.first_name," ",c.last_name) as customer_name,
@@ -37,7 +50,7 @@ class Reports_model extends MY_Model {
 				from sales s
 				left join sales_payment_details spd on s.id =  spd.sales_id
 				left join customers c on c.id = s.customers_id
-				where s.customers_id='.$customer_id.' group by spd.sales_id '.$order_qry;
+				where 1=1 '.$custsomer_sql.' '.$date_sql.' group by spd.sales_id '.$order_qry;
 			if($from_grid)
 			{
 				$data_flds = array("<a href='".base_url()."sales/invoice/{%id%}' id='{%id%}'>{%invoice_number%}</a>",'customer_name','address','total_sale_amount','discount_amount','amount_after_discount','vat_amount','amount_with_vat','total_paid','balance','date_added');
