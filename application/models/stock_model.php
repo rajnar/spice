@@ -24,15 +24,22 @@ class Stock_model extends MY_Model{
         if(empty($old_products))
         {
             $sql = 'INSERT INTO products ( models_id,imei_number ) values ';
+			$val_sql = '';
             foreach($products as $imei_no)
             {
                 if((rtrim($imei_no) != '') && (strlen(trim($imei_no)) == 15))
                 {
-                    $sql .= '('.$_POST['models_id'].',"'.trim($imei_no).'"),';
+                    $val_sql .= '('.$_POST['models_id'].',"'.trim($imei_no).'"),';
                 }
             }
-            $this->db->query(rtrim($sql,','));
-            return array('error_code'=>200,'error_msg'=>'success');
+            if(!empty($val_sql))
+			{
+				$sql .= $val_sql; 
+				$this->db->query(rtrim($sql,','));
+				return array('error_code'=>200,'error_msg'=>'success');
+			}
+			 $error_msg .= 'Please check the IMEI Numbers';
+             return array('error_code'=>301,'error_msg'=>$error_msg);
         }
         else
         {

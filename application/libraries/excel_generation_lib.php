@@ -23,7 +23,7 @@ class Excel_generation_lib {
         $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, $rep_gen_by);
 		$row++;
 		$heading = 'SIREE MOBILES';
-		$objPHPExcel->getActiveSheet()->mergeCellsByColumnAndRow(0,$row,8,$row);
+		$objPHPExcel->getActiveSheet()->mergeCellsByColumnAndRow(0,$row,10,$row);
         $objPHPExcel->getActiveSheet()->SetCellValue('A'.$row, $heading);
         $range = 'A'.$row.':'.'I'.$row;
         $objPHPExcel->getActiveSheet()->getStyle($range)->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('1969a6');
@@ -103,10 +103,13 @@ class Excel_generation_lib {
 				$objPHPExcel->getActiveSheet()->setCellValueExplicit('D'.$row, $val['total_sale_amount'],PHPExcel_Cell_DataType::TYPE_STRING);
 				$objPHPExcel->getActiveSheet()->setCellValueExplicit('E'.$row, $val['discount'],PHPExcel_Cell_DataType::TYPE_STRING);
 				$objPHPExcel->getActiveSheet()->setCellValueExplicit('F'.$row, $val['amount_after_discount'],PHPExcel_Cell_DataType::TYPE_STRING);
-				$objPHPExcel->getActiveSheet()->setCellValueExplicit('G'.$row, $val['total_paid'],PHPExcel_Cell_DataType::TYPE_STRING);
-				$objPHPExcel->getActiveSheet()->setCellValueExplicit('H'.$row, $val['balance'],PHPExcel_Cell_DataType::TYPE_STRING);
-				$objPHPExcel->getActiveSheet()->SetCellValue('I'.$row, $val['date_added']);
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('G'.$row, $val['vat_amount'],PHPExcel_Cell_DataType::TYPE_STRING);
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('H'.$row, $val['amount_with_vat'],PHPExcel_Cell_DataType::TYPE_STRING);
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('I'.$row, $val['total_paid'],PHPExcel_Cell_DataType::TYPE_STRING);
+				$objPHPExcel->getActiveSheet()->setCellValueExplicit('J'.$row, $val['balance'],PHPExcel_Cell_DataType::TYPE_STRING);
+				$objPHPExcel->getActiveSheet()->SetCellValue('K'.$row, $val['date_added']);
 				//}
+				
 				$range = 'A'.$row.':'.'C'.$row;
 				$objPHPExcel->getActiveSheet()->duplicateStyleArray(
                     array(
@@ -131,7 +134,7 @@ class Excel_generation_lib {
                     $range
                 );	
 				
-				$range = 'D'.$row.':'.'I'.$row;
+				$range = 'D'.$row.':'.'K'.$row;
 				$objPHPExcel->getActiveSheet()->duplicateStyleArray(
                     array(
                     'font' => array(

@@ -10,15 +10,25 @@ class Sales extends Main_Controller {
     public function getSales() {
     //$sql = 'SELECT id,invoice_number,CONCAT(first_name," ",last_name) AS name,address,city,state,zip,phone_number1,phone_number2,`status`
     //FROM customers';
-        $sql = 'SELECT s.id,s.invoice_number,s.customers_id,s.total_sale_amount,s.discount,s.amount_after_discount,
-                s.payment_method,s.other_details,DATE_FORMAT(s.date_added,"%d/%m/%Y %h:%i:%s %p") as date_added,
-                c.id AS cusid, CONCAT(c.first_name," ",c.last_name) AS name, SUM(spd.amount) AS total_paid,
-                TRUNCATE((s.amount_after_discount- SUM(spd.amount)),2) AS balance
+        $sql = 'SELECT s.id,
+				concat("SIREE","",LPAD(s.invoice_number,8,0)) as invoice_number,
+				s.customers_id,
+				FORMAT(s.total_sale_amount,2) as total_sale_amount,
+				s.discount,
+				FORMAT(s.amount_after_discount,2) as amount_after_discount,
+				FORMAT(IFNULL(sum(spd.amount),"0.00"),2) as total_paid,
+				FORMAT(IFNULL((s.amount_with_vat- IFNULL(sum(spd.amount),"0.00")),"0.00"),2) AS balance,
+				CONCAT("@",s.discount,"%\n", FORMAT(IFNULL(s.total_sale_amount-s.amount_after_discount,"0.00"),2)) as discount_amount,
+				CONCAT("@",s.vat,"%\n", FORMAT(IFNULL(s.vat_amount,"0.00"),2)) as vat_amount,
+				FORMAT(IFNULL(s.amount_with_vat,"0.00"),2) as amount_with_vat,
+                IF(s.payment_method = "ca","CASH","CREDIT") as payment_method,
+				s.other_details,DATE_FORMAT(s.date_added,"%d/%m/%Y") as date_added,
+                c.id AS cusid, CONCAT(c.first_name," ",c.last_name) AS name 
                 FROM sales s
                 INNER JOIN customers c ON c.id = s.customers_id
                 RIGHT JOIN sales_payment_details spd ON spd.sales_id = s.id
                 GROUP BY sales_id';
-        $data_flds = array('invoice_number','name','total_sale_amount','discount','amount_after_discount','total_paid','balance','payment_method','date_added',"<a href='".base_url()."sales/payAmount/{%id%}' id='{%id%}' class='btn-small'>Bill Payment</a>");
+        $data_flds = array('invoice_number','name','total_sale_amount','discount_amount','amount_after_discount','vat_amount','amount_with_vat','total_paid','balance','payment_method','date_added',"<a href='".base_url()."sales/payAmount/{%id%}' id='{%id%}' class='btn-small'>Bill Payment</a>");
         echo $this->sales_model->display_grid($_POST,$sql,$data_flds);
     }
 

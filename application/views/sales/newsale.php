@@ -61,11 +61,19 @@
 						customers_id: {
 							required : true
 						},
+						discount: {
+							number : true
+						},
+						vat: {
+							required : true,
+							number : true
+						},
 						payment_method: {
 							required : true
 						},
 						 amount: {
-							required : true
+							required : true,
+							number:true
 						},
 						other_details: {
 							required : true
@@ -75,11 +83,19 @@
 						customers_id: {
 							required : "Please Customer"
 						},
+						discount: {
+							number : "Doscount Should be Number"
+						},
+						vat: {
+							required :"Please Enter VAT",
+							number : "VAT Should be Number"
+						},
 						payment_method: {
 							required : "Please select Payment Method"
 						},
 						 amount: {
-							required : "Please Enter Amount"
+							required : "Please Enter Amount",
+							number:"Amount Should be number"
 						},
 						other_details: {
 							required : "Please enter Other Details"

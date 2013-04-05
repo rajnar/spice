@@ -91,9 +91,12 @@
                     if(!empty($details_rs))
                     {
                     ?>
+					<div >
+                        <h3 align="center"><u>RETAIL/TAX INVOICE</u></h3>
+                    </div>
                     <div class="modal-header">
                         <span class="mydate">Invoice Date: <?php echo date('d/m/Y h:i:s a',strtotime($details_rs->date_added));?> </span>
-                        <h3>Invoice No.: <?php echo 'SIREE'.str_pad($details_rs->invoice_number,8,"0",STR_PAD_LEFT);?></h3>
+                        <h4>Invoice No.: <?php echo 'SIREE'.str_pad($details_rs->invoice_number,8,"0",STR_PAD_LEFT);?></h3>
                     </div>
 					<div class="modal-body">
 					<table width="100%" border="0" cellpadding="2" cellspacing="0" >
@@ -177,11 +180,11 @@
                             <tr>
                               <td width="4%"><?php echo $i;?></td>
                               <td width="18%"><?php echo $values->name.'-'.$values->model_number;?></td>
-                              <td width="5%"><?php echo $values->qty;?></td>
+                              <td width="5%" align="center"><?php echo $values->qty;?></td>
                               <td width="10%" align="right"><?php echo number_format($values->price, 2, '.', ','); ?></td>
                               <td width="10%" align="right"><?php echo '0.00';?></td>
                               <td width="12%" align="right"><?php echo number_format($values->total_price, 2, '.', ',');?></td>
-                              <td width="8%" align="center"><?php echo '5.0';?></td>
+                              <td width="8%" align="center"><?php echo '---';?></td>
                               <td width="8%" align="center"><?php echo '--';?></td>
                               <td width="8%" align="right"><?php echo '0.00';?></td>
                               <td align="right"><?php echo number_format($values->total_price, 2, '.', ',');?></td>
@@ -221,30 +224,38 @@
                                   <td>&nbsp;</td>
                                   <td>&nbsp;</td>
                                 </tr>
-                              </table>
+                      </table>
 					  
 					  
 					  
 					  <table width="100%" border="1" cellpadding="2" cellspacing="1" style="border:#999999">
             <tr>
               <td width="22%" align="center">TOTAL</td>
-              <td width="5%"><?php echo $total_qty;?></td>
+              <td width="5%" align="center"><?php echo $total_qty;?></td>
               <td width="10%" align="center">---</td>
               <td width="10%" align="right">0.00</td>
               <td width="12%" align="right"><?php echo  number_format($total_netamt, 2, '.', ',');?></td>
-              <td width="8%">---</td>
-              <td width="8%" align="right">VAT (Amt.)</td>
-              <td width="8%">---</td>
+              <td width="8%" align="center">---</td>
+              <td width="8%" align="left">VAT (Amt.)</td>
+              <td width="8%" align="center">---</td>
               <td align="right"><?php echo  number_format($total_netamt, 2, '.', ',');?></td>
             </tr>
             
             <tr>
               <td colspan="9"><table width="100%" border="0" cellpadding="5" cellspacing="0">
                 <tr>
-                  <td><table width="30%" border="0" align="right" cellpadding="5" cellspacing="5">
+                  <td><table width="35%" border="0" align="right" cellpadding="5" cellspacing="5">
                     <tr>
-                      <td width="50%">Cash Discount (Rs.)</td>
-                      <td width="50%" align="right"><?php echo number_format($details_rs->discount, 2, '.', ',');?></td>
+                      <td width="70%">Cash Discount (Rs.) (-)</td>
+                      <td width="30%" align="right"><?php echo number_format($details_rs->discount_amount, 2, '.', ',');?></td>
+                    </tr>
+					<tr>
+                      <td width="70%">VAT @ <?php echo $details_rs->vat.'%'?>(Rs.) (+)</td>
+                      <td width="30%" align="right"><?php echo number_format($details_rs->vat_amount, 2, '.', ',');?></td>
+                    </tr>
+					<tr>
+                      <td width="70%">Total Amount (Rs.)</td>
+                      <td width="30%" align="right"><?php echo number_format($details_rs->amount_with_vat, 2, '.', ',');?></td>
                     </tr>
                     <tr>
                       <td>Net Amount Paid (Rs.) </td>
@@ -273,7 +284,8 @@
 				(Can be customised as per state legislation requirement)</td>
 			  </tr>
 			  <tr>
-				<td colspan="2" align="right">For SIREE MOBILES</td>
+				<td align="right">&nbsp;</td>
+				<td align="center">For SIREE MOBILES</td>
 				<td align="right">&nbsp;</td>
 			  </tr>
 			  <tr>
@@ -285,8 +297,8 @@
 				<td align="right">&nbsp;</td>
 			  </tr>
 			  <tr>
-				<td width="97%" align="right">Authorioad Signetory</td>
-				<td width="1%" align="right">&nbsp;</td>
+				<td width="72%" align="right">&nbsp;</td>
+				<td width="26%" align="center">Authorised Signetory</td>
 				<td width="2%" align="right">&nbsp;</td>
 			  </tr>
 			</table>

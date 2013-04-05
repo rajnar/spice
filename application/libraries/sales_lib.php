@@ -12,6 +12,9 @@ class Sales_lib {
     private $other_details;
     private $discount;
     private $amount_after_discount;
+	private $vat;
+	private $vat_amount;
+	private $amount_with_vat;
     private $date_added;
     private $date_modified;
 
@@ -77,6 +80,30 @@ class Sales_lib {
 
     public function setDiscount($discount) {
         $this->discount = $discount;
+    }
+	
+	public function getVat() {
+        return $this->vat;
+    }
+
+    public function setVat($vat) {
+        $this->vat = $vat;
+    }
+	
+	public function getVat_amount() {
+        return $this->vat_amount;
+    }
+
+    public function setVat_amount($vat_amount) {
+        $this->vat_amount = $vat_amount;
+    }
+
+	public function getAmount_with_vat() {
+        return $this->amount_with_vat;
+    }
+
+    public function setAmount_with_vat($amount_with_vat) {
+        $this->amount_with_vat = $amount_with_vat;
     }
 
     public function getDate_added() {

@@ -78,20 +78,22 @@
                     url:'<?php echo site_url();?>reports/getCustomresInvData?customer_id='+cust_id,
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Invoice Number','Name','Address','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added'],
+                    colNames:['Invoice Number','Name','Address','Total Sale Amount(Rs)','Discount(Rs.)','Amount After Discount(Rs.)','VAT','Total Amount(Rs)','Total Amount Paid(Rs)','Balance Amount(Rs)','Invoice Date'],
                     colModel:[
-                        {name:'invoice_number',index:'invoice_number',width:'10%'},
-                        {name:'name',index:'name',width:'17%'},
-						{name:'address',index:'address',width:'15%'},
-                        {name:'total_sale_amount',index:'total_sale_amount',width:'9%',align:"right"},
-                        {name:'discount',index:'discount',width:'4%',align:"right"},
-                        {name:'amount_after_discount',index:'amount_after_discount',width:'9%',align:"right"},
+                        {name:'invoice_number',index:'invoice_number',width:'7%'},
+                        {name:'name',index:'name',width:'10%'},
+						{name:'address',index:'address',width:'12%'},
+                        {name:'total_sale_amount',index:'total_sale_amount',width:'8%',align:"right"},
+                        {name:'discount',index:'discount',width:'7%',align:"right"},
+						{name:'amount_after_discount',index:'amount_after_discount',width:'7%',align:"right"},
+						{name:'vat_amount',index:'vat_amount',width:'7%',align:"right"},
+                        {name:'total_amount',index:'total_amount',width:'8%',align:"right"},
                         {name:'total_paid',index:'total_paid',width:'8%',align:"right"},
-                        {name:'balance',index:'balance',width:'8%',align:"right"},
-                        {name:'date_added',index:'date_added',width:'10%'}
+                        {name:'balance',index:'balance',width:'7%',align:"right"},
+                        {name:'date_added',index:'date_added',width:'8%'}
                     ],
                     rowNum:5,
-                    height:$(window).height()-230,
+                    height:$(window).height()-150,
                     autowidth: true,
                     //rowList:[10,20,30],
                     pager: '#sales_grid_pager',
@@ -117,7 +119,7 @@
         </script>
     </head>
 
-    <body OnResize="refreshWindow()">
+    <body>
         <?php echo $header;
 		//echo '<pre>';print_r($cutomers);die;
 		?>

@@ -23,7 +23,7 @@ class Reports extends Main_Controller {
 	{
 		$return_data = $this->reports_model->getCustomresInvData(false);
 		//print_r($_POST); die;
-		$data['headers'] = array('Invoice Number','Name','Address','Total Sale Aamount (Rs)','Discount (%)','Amount after Discount (Rs)','Total Amount Paid (Rs)','Balance Amount (Rs)','Date Added');
+		$data['headers'] = array('Invoice Number','Name','Address','Total Sale Aamount(Rs)','Discount(Rs.)','Amount after Discount(Rs)','VAT','Total Amount(Rs)','Total Amount Paid(Rs)','Balance Amount(Rs)','Invoice Date');
 		$data['values'] = $return_data;
 		
 		//echo '<pre>'; print_r($data); die;
