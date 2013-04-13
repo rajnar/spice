@@ -78,20 +78,22 @@ class Sales extends Main_Controller {
 
     public function getInvoiceDetails()
     {
-        $ret_products_arr = explode("\r\n",$_POST['ret_products']);
+        $ret_products_arr = explode("\n",$_POST['ret_products']);
         $invoice_details = $this->sales_model->getInvoiceDetails($_POST['invoice_id']);
-        
         $products_str = '';
         foreach($invoice_details['products'] as $key=>$data)
         {
             if(in_array($data->imei_number,$ret_products_arr))
             {
                 unset($invoice_details['products'][$key]);
-                continue;
+                //continue;
             }
-            $products_str .= $data->imei_number."\r\n";
+            else
+            {
+                $products_str .= $data->imei_number."\r\n";
+            }
         }
-
+        //print_r($invoice_details);
         //echo $products_str;die;
         //$pdata = new stdClass();
         $sdata['products'] = $pdata['products'] = $products_str;

@@ -75,8 +75,11 @@ class Reports_model extends MY_Model {
                 FROM customers order by customer_name';
         $data = $this->getDBResult($sql,'object');
         $customer = array();
-        foreach($data as $payment_details) {
-            $customer[$payment_details->id] = $payment_details->customer_name;
+        if(!empty($data))
+        {
+            foreach($data as $payment_details) {
+                $customer[$payment_details->id] = $payment_details->customer_name;
+            }
         }
         return $customer;
     }

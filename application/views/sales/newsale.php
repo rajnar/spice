@@ -75,9 +75,9 @@
 							required : true,
 							number:true
 						},
-						other_details: {
+						/*other_details: {
 							required : true
-						},
+						},*/
 					},
 					messages: {
 						customers_id: {
@@ -97,9 +97,9 @@
 							required : "Please Enter Amount",
 							number:"Amount Should be number"
 						},
-						other_details: {
+						/*other_details: {
 							required : "Please enter Other Details"
-						},
+						},*/
 					},
 					submitHandler: function()
 					{

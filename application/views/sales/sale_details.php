@@ -15,7 +15,7 @@ print_r($invoice_details);*/
         <?php
         $tot_pieces = 0;
         $valid_sale = true;
-        if(empty($details['overview'])) {
+        /*if(empty($details['overview'])) {
             $valid_sale = false;
             ?>
         <tr>
@@ -23,7 +23,7 @@ print_r($invoice_details);*/
         </tr>
 <?php
         }
-        else {
+        else {*/
             foreach($details['overview'] as $model) {?>
         <tr>
             <td><?php echo $model->name;?></td>
@@ -33,7 +33,7 @@ print_r($invoice_details);*/
         </tr>
     <?php
     }
-        }
+        //}
         ?>
         <tr>
             <td class="bold" colspan="2" align="right" style="padding-right:10px;">Grand Total:</td>
@@ -71,7 +71,6 @@ if($valid_sale)
             <?php
             }
             ?>
-            <option value="2">customer 2</option>
         </select>
     </label></div>
 <div><label>Discount %: <input type="text" name="discount" id="discount" class="jdis_calc" value="<?php echo $invoice_details['details_rs']->discount;?>"></label></div>

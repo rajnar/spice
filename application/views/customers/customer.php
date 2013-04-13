@@ -80,7 +80,7 @@
 						return true;
 					}
 				}, "");
-				 $.validator.addMethod("checklenght2", function(value, phone_number2) {
+				 /*$.validator.addMethod("checklenght2", function(value, phone_number2) {
 					if($("#phone_number2").val().length != 10)
 					{
 						return false;
@@ -89,7 +89,7 @@
 					{
 						return true;
 					}
-				}, "");
+				}, "");*/
 				
 				 $("#customer_form").validate({
                 rules: {
@@ -117,11 +117,11 @@
 						number: true,
 						checklenght1: true
                     },
-                    phone_number2: {
+                    /*phone_number2: {
                         required : true,
 						number: true,
 						checklenght2: true
-                    },
+                    },*/
                 },
                 messages: {
                     first_name: {
@@ -148,11 +148,11 @@
 						number :  "Primary Contact Number should be number only",
 						checklenght1: "Primary Contact Number should be 10 digit number"
                     },
-                    phone_number2: {
+                    /*phone_number2: {
                         required : "Please enter Alternate Contact Number",
 						number :  "Alternate Contact Number should be number only",
 						checklenght2: "Alternate Contact Number should be 10 digit number"
-                    },
+                    },*/
                 },
                 submitHandler: function()
                 {
@@ -194,7 +194,7 @@
                             <div><label>State: <input type="text" name="state" id="state" value="<?php echo $cus_data->state;?>"></label></div>
                             <div><label>Zip: <input type="text" name="zip" id="zip" maxlength="6" value="<?php echo $cus_data->zip;?>"></label></div>
                             <div><label>Primary Contact Number: <input type="text" name="phone_number1" id="phone_number1" value="<?php echo $cus_data->phone_number1;?>" maxlength="10"></label></div>
-                            <div><label>Alternate Contact Number: <input type="text" name="phone_number2" id="phone_number2" value="<?php echo $cus_data->phone_number2;?>" maxlength="10"></label></div>
+                            <div><label>VAT(TIN): <input type="text" name="phone_number2" id="phone_number2" value="<?php echo $cus_data->phone_number2;?>" maxlength="10"></label></div>
 
                             <div>
                                 <a href="#" class="btn btn-primary jsave_customer">Save changes</a>
