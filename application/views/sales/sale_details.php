@@ -7,8 +7,8 @@ print_r($invoice_details);*/
 <div style="padding-bottom:5px">
     <table border="1" class="custom_border" cellpadding="0" cellspacing="0" width="100%">
         <tr>
-            <td class="custom_bg">Model Name</td>
             <td class="custom_bg">Model Number</td>
+            <td class="custom_bg">Model Name</td>
             <td class="custom_bg">Price</td>
             <td class="custom_bg">Total Pieces</td>
         </tr>
@@ -26,8 +26,8 @@ print_r($invoice_details);*/
         else {*/
             foreach($details['overview'] as $model) {?>
         <tr>
-            <td><?php echo $model->name;?></td>
             <td><?php echo $model->model_number;?></td>
+            <td><?php echo $model->name;?></td>
             <td><?php echo $model->totalprice;?></td>
             <td><?php echo $model->total_pieces; $tot_pieces += $model->total_pieces;?></td>
         </tr>

@@ -123,7 +123,7 @@ class Sales_model extends MY_Model {
 		{
 			foreach($rs as $key=>$values)
 			{
-				$product_desc = $values->name.'-'.$values->model_number;
+				$product_desc = $values->model_number.'-'.$values->name;
 				$result[$product_desc][] = $values->imei_number;
 			}
 		}

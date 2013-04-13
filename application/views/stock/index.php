@@ -63,10 +63,10 @@
                     url:'<?php echo site_url();?>stock/getStock',
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Model Name','Model Number','Price','IMEI Number'],
+                    colNames:['Model Number','Model Name','Price','IMEI Number'],
                     colModel:[
-                        {name:'name',index:'name',width:'25%'},
                         {name:'model_number',index:'model_number',width:'25%'},
+                        {name:'name',index:'name',width:'25%'},
                         {name:'price',index:'price',width:'25%'},
                         {name:'imei_number',index:'imei_number',width:'25%'}
                     ],
@@ -93,10 +93,10 @@
                     url:'<?php echo site_url();?>stock/getStockOverview',
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Model Name','Model Number','Price','Current Available Stock (Pieces)'],
+                    colNames:['Model Number','Model Name','Price','Current Available Stock (Pieces)'],
                     colModel:[
-                        {name:'name',index:'name',width:'25%'},
                         {name:'model_number',index:'model_number',width:'25%'},
+                        {name:'name',index:'name',width:'25%'},
                         {name:'price',index:'price',width:'25%'},
                         {name:'total_pieces',index:'total_pieces',width:'25%'}
                     ],
@@ -115,6 +115,40 @@
                     gridComplete:function(){
                         $('#stockov_grid .ui-jqgrid-bdiv').css('overflow-x','hidden'); // hide horizontal scroll bar
                     }
+                });
+				
+				$('.jexcel').live('click',function(){
+                    var qry_str = '';
+                    $.ajax({
+                        type: "POST",
+                        url: '<?php echo site_url();?>stock/generateExcel',
+                        data: qry_str,
+                        dataType:'json',
+                        beforeSend : function(){
+							$('#loading').show();
+                        },
+                        success: function(retdata){
+							$('#loading').hide();
+                            if(retdata.error_code == '301')
+                            {
+                                $('#error_msg').show();
+                                var html = '<div>'+retdata.error_msg+'</div>'
+                                html += '<div style="float:right"><input type="button" class="ok" name="ok" value="OK"></div>';
+                                $('#msg_body').html(html);
+                                $.blockUI({ message: ''});
+                            }
+                            else
+                            {
+                                $('.jexcel').hide();
+								$('#downloadexcel').show();
+								html = '<a href="<?php echo site_url();?>reports/download/'+retdata.filename+'" class="btn btn-primary jexceldl">Download Excel</a>';
+								$('#downloadexcel').html(html);
+                                //$('.jexceldl').show();
+                            }
+                        },
+                        complete: function(){
+                        }
+                    });
                 });
 
             });
@@ -160,7 +194,15 @@
                     </table>*/?>
                 </div>
             </div>
-            
+            <div class="row-fluid">
+                <div>&nbsp;</div>
+            </div>
+			<div>
+				<span id="exportexcel"><a href="#" class="btn btn-primary jexcel">Export to Excel</a></span>
+				<span id="downloadexcel" style="display:none"></span>
+				<span id="loading" style="display:none"> <strong>Loading...Please wait</strong></span>
+			</div>
+
             <div class="row-fluid">
                 <div>&nbsp;</div>
             </div>
@@ -197,7 +239,6 @@
                     <div id="stock_grid_pager"></div>
                 </div><!--/span-->
             </div><!--/row-->
-
             <hr>
 
             <footer>

@@ -65,8 +65,10 @@
                         data: qry_str,
                         dataType:'json',
                         beforeSend : function(){
+						$('#loading').show();
                         },
                         success: function(retdata){
+							$('#loading').hide();
                             if(retdata.error_code == '301')
                             {
                                 $('#error_msg').show();
@@ -78,7 +80,10 @@
                             else
                             {
                                 $('.jexcel').hide();
-                                $('.jexceldl').show();
+								$('#downloadexcel').show();
+								html = '<a href="<?php echo site_url();?>reports/download/'+retdata.filename+'" class="btn btn-primary jexceldl">Download Excel</a>';
+								$('#downloadexcel').html(html);
+                                //$('.jexceldl').show();
                             }
                         },
                         complete: function(){
@@ -102,6 +107,8 @@
                 });*/
                 
                 $('.jgetrep').live('click',function(){
+					$('.jexcel').show();
+					$('#downloadexcel').hide();
                     $('#report_grid').html('<table id="sales_grid_tbl" class="cs_gd"></table><div id="sales_grid_pager"></div>')
                     var cust_id = $('#customers').val();
                     var fromdate = $('.jfrom').val();
@@ -231,9 +238,9 @@
                             </div>
                             <div>
                                 <a href="#" class="btn btn-primary jgetrep">Get Report</a>
-
-                                <a href="#" class="btn btn-primary jexcel">Generate Excel</a>
-                                <a href="<?php echo site_url();?>reports/download/" class="btn btn-primary jexceldl" style="display:none">Download Excel</a>
+								<span id="exportexcel"><a href="#" class="btn btn-primary jexcel">Export to Excel</a></span>
+								<span id="downloadexcel" style="display:none"></span>
+								<span id="loading" style="display:none"> <strong>Loading...Please wait</strong></span>
                             </div>
                         </div>
                     </div>

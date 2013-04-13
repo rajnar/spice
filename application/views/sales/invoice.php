@@ -178,7 +178,7 @@
                                             ?>
                                     <tr>
                                         <td width="4%"><?php echo $i;?></td>
-                                        <td width="18%"><?php echo $values->name.'-'.$values->model_number;?></td>
+                                        <td width="18%"><?php echo $values->model_number.'-'.$values->name;?></td>
                                         <td width="5%" align="center"><?php echo $values->qty;?></td>
                                         <td width="10%" align="right"><?php echo number_format($values->price, 2, '.', ','); ?></td>
                                         <td width="10%" align="right"><?php echo '0.00';?></td>

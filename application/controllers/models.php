@@ -10,7 +10,7 @@ class Models extends Main_Controller {
     public function getModelsGrid()
     {
         $sql = 'SELECT id,name,model_number,price FROM models';
-        $data_flds = array('name','model_number','price',"<a class='cmodel_edit' id='{%id%}'>Edit</a>");
+        $data_flds = array('model_number','name','price',"<a class='cmodel_edit' id='{%id%}'>Edit</a>");
 	echo $this->models_model->display_grid($_POST,$sql,$data_flds);
     }
 

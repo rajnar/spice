@@ -120,6 +120,37 @@ class Stock_model extends MY_Model{
                 WHERE imei_number IN ("'.$products_str.'")';
         $rs = $this->db->query($sql);
     }
+	
+	public function getStockOverview($from_grid=true)
+    {
+		/*$sql = 'SELECT m.name, m.model_number, m.price, count(p.imei_number) as total_pieces
+                FROM products p
+                INNER JOIN models m ON m.id = p.models_id
+                WHERE m.`status` = "a" AND p.`status` = "a"
+                group by m.id';*/
+        $sql = 'SELECT m.id, m.name, m.model_number, m.price, COUNT(p.imei_number) AS total_pieces
+                FROM models m
+                LEFT JOIN products p ON m.id = p.models_id
+                WHERE m.`status` = "a" and p.status in ("a","c")
+                GROUP BY m.id';
+        if($from_grid)
+		{
+		$data_flds = array('model_number','name','price','total_pieces');
+        echo $this->stock_model->display_grid($_POST,$sql,$data_flds);
+		}
+		else
+		{
+			$data = $this->getDBResult($sql,'object');
+			$stock_details = array();
+			if(!empty($data))
+			{
+				foreach($data as $key=>$values) {
+					$stock_details[] = array('model_number'=>$values->model_number,'name'=>$values->name,'price'=>$values->price,'total_pieces'=>$values->total_pieces);
+				}	
+			}
+			return $stock_details;
+		}
+    }
 
 
 }

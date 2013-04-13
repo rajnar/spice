@@ -65,10 +65,10 @@
                     url:'<?php echo site_url();?>models/getModelsGrid',
                     datatype: "json",
                     mtype:"POST",
-                    colNames:['Model','Model Number', 'Price','Edit'],
+                    colNames:['Model Number','Model Name', 'Price','Edit'],
                     colModel:[
-                        {name:'name',index:'name',width:'10%'},
                         {name:'model_number',index:'model_number',width:'10%',search:true},
+                        {name:'name',index:'name',width:'10%'},
                         {name:'price',index:'price',width:'10%'},
                         {name:'edit',index:'edit',width:'15%'}
                     ],
