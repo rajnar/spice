@@ -80,9 +80,9 @@ class Sales_model extends MY_Model {
     }
     public function getInvoiceDetails($invoice_id) {
         $details_sql = 'SELECT s.*,CONCAT(c.first_name," ",c.last_name) AS customer_name, SUM(spd.amount) AS amount_paid,
-                        (s.amount_with_vat- SUM(spd.amount)) AS balance_amount,
+                        (s.amount_after_discount- SUM(spd.amount)) AS balance_amount,
 						s.total_sale_amount-s.amount_after_discount As discount_amount,
-						s.vat as vat,s.vat_amount,s.amount_with_vat,
+						s.amount_after_discount,
                         c.address, c.city, c.state, c.zip, c.phone_number1, c.phone_number2
                         FROM sales s
                         INNER JOIN sales_payment_details spd ON s.id = spd.sales_id
@@ -148,7 +148,14 @@ class Sales_model extends MY_Model {
     public function getPayDetails($invoice_id)
     {
         $sql = 'SELECT CONCAT(c.first_name," ",c.last_name) AS name,c.phone_number1, c.phone_number2,
-                s.invoice_number, s.total_sale_amount, s.discount, s.amount_after_discount, s.other_details, s.date_added, SUM(spd.amount) AS amount_paid, (s.amount_after_discount- SUM(spd.amount)) AS balance_amount
+                concat("SIREE","",LPAD(s.invoice_number,8,0)) as invoice_number, 
+				s.total_sale_amount, 
+				s.discount, 
+				s.amount_after_discount, 
+				s.other_details, 
+				s.date_added, 
+				SUM(spd.amount) AS amount_paid, 
+				(s.amount_after_discount- SUM(spd.amount)) AS balance_amount
                 FROM sales s
                 INNER JOIN customers c ON c.id = s.customers_id
                 INNER JOIN sales_payment_details spd ON spd.sales_id = s.invoice_number

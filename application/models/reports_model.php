@@ -42,10 +42,10 @@ class Reports_model extends MY_Model {
 				s.discount,
 				FORMAT(IFNULL(s.amount_after_discount,"0.00"),2) as amount_after_discount,
 				FORMAT(IFNULL(sum(spd.amount),"0.00"),2) as total_paid,
-				FORMAT(IFNULL((s.amount_with_vat- IFNULL(sum(spd.amount),"0.00")),"0.00"),2) AS balance,
+				FORMAT(IFNULL((s.amount_after_discount- IFNULL(sum(spd.amount),"0.00")),"0.00"),2) AS balance,
 				CONCAT("@",s.discount,"%\n", FORMAT(IFNULL(s.total_sale_amount-s.amount_after_discount,"0.00"),2)) as discount_amount,
 				CONCAT("@",s.vat,"%\n", FORMAT(IFNULL(s.vat_amount,"0.00"),2)) as vat_amount,
-				FORMAT(IFNULL(s.amount_with_vat,"0.00"),2) as amount_with_vat,
+				FORMAT(IFNULL(s.amount_after_discount,"0.00"),2) as total_amt,
 				DATE_FORMAT(s.date_added,"%d/%m/%Y") as date_added
 				from sales s
 				left join sales_payment_details spd on s.id =  spd.sales_id
@@ -53,7 +53,7 @@ class Reports_model extends MY_Model {
 				where 1=1 '.$custsomer_sql.' '.$date_sql.' group by spd.sales_id '.$order_qry;
 			if($from_grid)
 			{
-				$data_flds = array("<a href='".base_url()."sales/invoice/{%id%}' id='{%id%}'>{%invoice_number%}</a>",'customer_name','address','total_sale_amount','discount_amount','amount_after_discount','vat_amount','amount_with_vat','total_paid','balance','date_added');
+				$data_flds = array("<a href='".base_url()."sales/invoice/{%id%}' id='{%id%}'>{%invoice_number%}</a>",'customer_name','address','total_sale_amount','discount_amount','amount_after_discount','total_amt','total_paid','balance','date_added');
 				echo $this->display_grid($_POST,$sql,$data_flds);
 			}
 			else
@@ -63,7 +63,7 @@ class Reports_model extends MY_Model {
 				if(!empty($data))
 				{
 					foreach($data as $key=>$values) {
-						$customer[] = array('invoice_number'=>$values->invoice_number,'customer_name'=>$values->customer_name,'address'=>$values->address,'total_sale_amount'=>$values->total_sale_amount,'discount'=>$values->discount_amount,'amount_after_discount'=>$values->amount_after_discount,'vat_amount'=>$values->vat_amount,'amount_with_vat'=>$values->amount_with_vat,'total_paid'=>$values->total_paid,'balance'=>$values->balance,'date_added'=>$values->date_added);
+						$customer[] = array('invoice_number'=>$values->invoice_number,'customer_name'=>$values->customer_name,'address'=>$values->address,'total_sale_amount'=>$values->total_sale_amount,'discount'=>$values->discount_amount,'amount_after_discount'=>$values->amount_after_discount,'vat_amount'=>$values->vat_amount,'total_amt'=>$values->total_amt,'total_paid'=>$values->total_paid,'balance'=>$values->balance,'date_added'=>$values->date_added);
 					}	
 				}
 				return $customer;

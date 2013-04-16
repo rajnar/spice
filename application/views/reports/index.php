@@ -118,7 +118,7 @@
                         url:'<?php echo site_url();?>reports/getCustomresInvData?'+qry_str,
                         datatype: "json",
                         mtype:"POST",
-                        colNames:['Invoice Number','Name','Address','Total Sale Amount(Rs)','Discount(Rs.)','Amount After Discount(Rs.)','VAT','Total Amount(Rs)','Total Amount Paid(Rs)','Balance Amount(Rs)','Invoice Date'],
+                        colNames:['Invoice Number','Name','Address','Total Sale Amount(Rs)','Discount(Rs.)','Amount After Discount(Rs.)','Total Amount(Rs)','Total Amount Paid(Rs)','Balance Amount(Rs)','Invoice Date'],
                         colModel:[
                             {name:'invoice_number',index:'invoice_number',width:'7%'},
                             {name:'name',index:'name',width:'10%'},
@@ -126,7 +126,6 @@
                             {name:'total_sale_amount',index:'total_sale_amount',width:'8%',align:"right"},
                             {name:'discount',index:'discount',width:'7%',align:"right"},
                             {name:'amount_after_discount',index:'amount_after_discount',width:'7%',align:"right"},
-                            {name:'vat_amount',index:'vat_amount',width:'7%',align:"right"},
                             {name:'total_amount',index:'total_amount',width:'8%',align:"right"},
                             {name:'total_paid',index:'total_paid',width:'8%',align:"right"},
                             {name:'balance',index:'balance',width:'7%',align:"right"},

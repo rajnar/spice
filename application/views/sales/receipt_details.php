@@ -16,31 +16,35 @@
         <td><?php echo $pay_details->name;?></td>
     </tr>
     <tr>
-        <td>Total Sale Amount:</td>
-        <td><?php echo round($pay_details->total_sale_amount,2);?></td>
+        <td>Total Sale Amount (Rs):</td>
+        <td><?php echo number_format(round($pay_details->total_sale_amount,2), 2, '.', ',') ;?></td>
     </tr>
     <tr>
         <td>Discount(%):</td>
         <td><?php echo $pay_details->discount;?></td>
     </tr>
     <tr>
-        <td>Amount After Discount:</td>
-        <td><?php echo round($pay_details->amount_after_discount,2);?></td>
+        <td>Amount After Discount (Rs):</td>
+        <td><?php echo number_format(round($pay_details->amount_after_discount,2), 2, '.', ',');?></td>
     </tr>
     <tr>
         <td>Other details:</td>
         <td><?php echo $pay_details->other_details;?></td>
     </tr>
-    <tr>
-        <td>Total Amount Paid:</td>
-        <td><?php echo round($pay_details->amount_paid,2);?></td>
+	<tr>
+        <td>Amount Paid (Rs):</td>
+        <td><?php echo number_format($paid_amount, 2, '.', ',');?></td>
     </tr>
     <tr>
-        <td>Balance Amount:</td>
-        <td><?php echo round($pay_details->balance_amount,2);?></td>
+        <td>Total Amount Paid (Rs):</td>
+        <td><?php echo number_format(round($pay_details->amount_paid,2), 2, '.', ',');?></td>
+    </tr>
+    <tr>
+        <td>Balance Amount (Rs):</td>
+        <td><?php echo number_format(round($pay_details->balance_amount,2), 2, '.', ',');?></td>
     </tr>
 </table>
-<div style="padding-top:8px;width:40%">
+<div style="padding-top:8px;width:40%" id='print_footer'>
     <div class="btn" id="back2grid">Back to Grid</div>
-    <div class="btn" id="print" style="float:right">Print</div>
+    <div class="btn" id="print" style="float:right"><button id="printThatText" name="printThatText" onClick="printPage();">Print this page</button></div>
 </div>

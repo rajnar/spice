@@ -171,7 +171,8 @@
                                         //echo '<pre>'; print_r($products);die;
                                         $i = 1;
                                         $total_qty = 0;
-                                        $total_netamt = 0;
+                                        $total_vatamt = 0;
+										$total_netamt = 0;
                                         foreach($products as $key=>$values) {
                                             $total_qty = $total_qty+$values->qty;
                                             $total_netamt = $total_netamt+$values->total_price;
@@ -183,8 +184,11 @@
                                         <td width="10%" align="right"><?php echo number_format($values->price, 2, '.', ','); ?></td>
                                         <td width="10%" align="right"><?php echo '0.00';?></td>
                                         <td width="12%" align="right"><?php echo number_format($values->total_price, 2, '.', ',');?></td>
-                                        <td width="8%" align="center"><?php echo '---';?></td>
-                                        <td width="8%" align="center"><?php echo '--';?></td>
+                                        <td width="8%" align="center"><?php echo '5';?></td>
+                                        <td width="8%" align="right"><?php 
+											$vat_amount = $values->total_price-(round($values->total_price/1.05));
+											$total_vatamt = $total_vatamt+$vat_amount;
+										echo number_format($vat_amount, 2, '.', ',');?></td>
                                         <td width="8%" align="right"><?php echo '0.00';?></td>
                                         <td align="right"><?php echo number_format($values->total_price, 2, '.', ',');?></td>
                                     </tr>
@@ -233,7 +237,7 @@
                             <td width="10%" align="right">0.00</td>
                             <td width="12%" align="right"><?php echo  number_format($total_netamt, 2, '.', ',');?></td>
                             <td width="8%" align="center">---</td>
-                            <td width="8%" align="left">VAT (Amt.)</td>
+                            <td width="8%" align="right"><?php echo  number_format($total_vatamt, 2, '.', ',');?></td>
                             <td width="8%" align="center">---</td>
                             <td align="right"><?php echo  number_format($total_netamt, 2, '.', ',');?></td>
                         </tr>
@@ -246,21 +250,21 @@
                                                     <td width="70%">Cash Discount (Rs.) (-)</td>
                                                     <td width="30%" align="right"><?php echo number_format($details_rs->discount_amount, 2, '.', ',');?></td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="70%">VAT @ <?php echo $details_rs->vat.'%'?>(Rs.) (+)</td>
-                                                    <td width="30%" align="right"><?php echo number_format($details_rs->vat_amount, 2, '.', ',');?></td>
-                                                </tr>
+                                               <!-- <tr>
+                                                    <td width="70%">VAT @ <?php //echo $details_rs->vat.'%'?>(Rs.) (+)</td>
+                                                    <td width="30%" align="right"><?php //echo number_format($details_rs->vat_amount, 2, '.', ',');?></td>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="70%">Total Amount (Rs.)</td>
-                                                    <td width="30%" align="right"><?php echo number_format($details_rs->amount_with_vat, 2, '.', ',');?></td>
+                                                    <td width="30%" align="right"><?php echo number_format($details_rs->amount_after_discount, 2, '.', ',');?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Net Amount Paid (Rs.) </td>
-                                                    <td align="right"><?php echo number_format($details_rs->amount_paid, 2, '.', '') ;?></td>
+                                                    <td align="right"><?php echo number_format($details_rs->amount_paid, 2, '.', ',') ;?></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Balance Amount (Rs.) </td>
-                                                    <td align="right"><?php echo number_format($details_rs->balance_amount, 2, '.', '') ;?></td>
+                                                    <td align="right"><?php echo number_format($details_rs->balance_amount, 2, '.', ',') ;?></td>
                                                 </tr>
                                             </table></td>
                                     </tr>
